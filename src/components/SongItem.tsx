@@ -1,11 +1,15 @@
+import { ActionBar } from './ActionBar.jsx';
+import { ProgressBar } from './ProgressBar.jsx';
+import { VinylRecord } from './VinylRecord.jsx';
+
 export const SongItem = (props: { index: number }) => {
   return (
     <view
-      style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}
+      style={{ width: "100%", height: "100vh", display: "flex", flexDirection: "column" }}
     >
-      <text style={{ fontSize: "16px", paddingLeft: "6px", paddingTop: "6px"}}>
-        {`song-${props.index}`}
-      </text>
+      <VinylRecord name={`song-${props.index}`} />
+      <ProgressBar />
+      <ActionBar />
     </view>
   );
 };
