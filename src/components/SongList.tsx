@@ -3,7 +3,6 @@ import type { ListSnapEvent } from '@lynx-js/types';
 import { SongItem } from './SongItem.jsx'
 import { PlaybackManager } from '../model/PlaybackManager.js';
 
-
 export interface SongListProps {
   manager: PlaybackManager;
 }
@@ -35,7 +34,6 @@ export const SongList = (props: SongListProps) => {
         width: "100%",
         height: "100vh",
         listMainAxisGap: "5px",
-        padding: "10px",
       }}
     >
       {Array.from({ length: 5 }).map((item, index) => {

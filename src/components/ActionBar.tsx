@@ -1,3 +1,10 @@
+import './ActionBar.css';
+import heartEmpty from '../assets/player/heart_empty.png'
+import heartFull from '../assets/player/heart_full_red.png'
+import playIcon from '../assets/player/play_light.png'
+import pauseIcon from '../assets/player/pause_light.png'
+import shareIcon from '../assets/player/share_light.png'
+
 export interface ActionBarProps {
   isPlaying: boolean;
   isLiked: boolean;
@@ -14,31 +21,19 @@ export const ActionBar = (props: ActionBarProps) => {
         alignItems: "center"
       }}
     >
-      <text
-        bindtap={props.toggleLike}
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          padding: "8px 16px",
-          minWidth: "60px",
-          textAlign: "center"
-        }}
-      >
-        {props.isLiked ? 'Liked' : 'Like'}
-      </text>
-      <text
-        bindtap={props.togglePauseResume}
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          padding: "8px 16px",
-          minWidth: "60px",
-          textAlign: "center"
-        }}
-      >
-        {props.isPlaying ? 'Pause' : 'Play'}
-      </text>
-      <text>Share</text>
+      <view bindtap={props.toggleLike}>
+        {props.isLiked
+          ? <image src={heartFull} className='HeartIcon' />
+          : <image src={heartEmpty} className='HeartIcon' />}
+      </view>
+      <view bindtap={props.togglePauseResume}>
+        {props.isPlaying
+          ? <image src={pauseIcon} className='PlayIcon' />
+          : <image src={playIcon} className='PlayIcon' />}
+      </view>
+      {/* not implemented yet */}
+      <image src={shareIcon} className='ShareIcon' />
+
     </view>
   );
 };
