@@ -1,3 +1,11 @@
+.TapArea {
+  width: 100px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid #FFFFFF; */
+}
+
 .HeartIcon {
   width: 44px;
   height: 44px;

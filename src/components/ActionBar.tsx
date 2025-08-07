@@ -21,19 +21,20 @@ export const ActionBar = (props: ActionBarProps) => {
         alignItems: "center"
       }}
     >
-      <view bindtap={props.toggleLike}>
+      <view bindtap={props.toggleLike} className='TapArea'>
         {props.isLiked
           ? <image src={heartFull} className='HeartIcon' />
           : <image src={heartEmpty} className='HeartIcon' />}
       </view>
-      <view bindtap={props.togglePauseResume}>
+      <view bindtap={props.togglePauseResume} className='TapArea'>
         {props.isPlaying
           ? <image src={pauseIcon} className='PlayIcon' />
           : <image src={playIcon} className='PlayIcon' />}
       </view>
       {/* not implemented yet */}
-      <image src={shareIcon} className='ShareIcon' />
-
+      <view className='TapArea'>
+        <image src={shareIcon} className='ShareIcon' />
+      </view>
     </view>
   );
 };
