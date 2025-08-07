@@ -1,6 +1,13 @@
-import { SongItem } from './SongItem.jsx'
 
-export const SongList = () => {
+import { SongItem } from './SongItem.jsx'
+import { PlaybackManager } from '../model/PlaybackManager.js';
+
+
+export interface SongListProps {
+  manager: PlaybackManager;
+}
+
+export const SongList = (props: SongListProps) => {
   return (
     <list
       scroll-orientation="vertical"
@@ -21,7 +28,7 @@ export const SongList = () => {
             item-key={`list-item-${index}`}
             key={`list-item-${index}`}
           >
-            <SongItem index={index} />
+            <SongItem manager={props.manager} />
           </list-item>
         );
       })}
