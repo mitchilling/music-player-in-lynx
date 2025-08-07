@@ -1,10 +1,13 @@
 import { MockPlayer } from './MockPlayer.jsx';
-import { Song } from './Song.jsx';  
+import { Song } from './Song.jsx';
 
 export class PlaybackManager {
   private player: MockPlayer;
-  private playlist: Song[] = [];
-  private currentIndex: number = 0;
+  private songs: Song[] = [];
+  private playStartTime: number | null = null;
+
+  public currentPositions: number[] = [];
+  public currentIndex: number = 0;
   public currentSong: Song | null = null;
   public isPlaying: boolean = false;
 
@@ -13,42 +16,79 @@ export class PlaybackManager {
   }
 
   addSong(song: Song) {
-    this.playlist.push(song);
-    if (!this.currentSong && this.currentIndex < this.playlist.length) {
-      this.currentSong = this.playlist[this.currentIndex];
+    this.songs.push(song);
+    this.currentPositions.push(0);
+    if (!this.currentSong && this.currentIndex < this.songs.length) {
+      this.currentSong = this.songs[this.currentIndex];
     }
   }
 
+  // =========== Mock Play Time ===========
+  private startTimer() {
+    this.playStartTime = Date.now();
+    // console.log('timer starts');
+  }
+
+  private stopTimer() {
+    if (this.playStartTime !== null && this.currentIndex >= 0 && this.currentIndex < this.currentPositions.length) {
+      const elapsed = (Date.now() - this.playStartTime) / 1000; // seconds
+      this.currentPositions[this.currentIndex] += elapsed;
+      // console.log(`Elapsed time for song at index ${this.currentIndex}: ${elapsed} seconds`);
+    }
+    this.playStartTime = null;
+    // console.log('timer ends');
+  }
+
+  // Override play, pause, and stop to use the timer
+  private play() {
+    this.player.prepare(this.songs[this.currentIndex]);
+    this.player.play();
+    this.isPlaying = true;
+    this.startTimer();
+  }
+
+  private pause() {
+    this.player.pause();
+    this.isPlaying = false;
+    this.stopTimer();
+  }
+
+  private stop() {
+    this.player.stop();
+    this.isPlaying = false;
+    this.stopTimer();
+  }
+  // =========== Mock Play Time ===========
+
   // user swipes to change songs
   switchTo(index: number) {
-    if (index < 0 || index >= this.playlist.length) {
+    if (index < 0 || index >= this.songs.length) {
       console.error('Index out of bounds');
       return;
     }
-    this.currentIndex = index;
-    this.currentSong = this.playlist[index];
-    // if the previous song was playing, stop it and play the new one
+
+    const wasPlaying = this.isPlaying
+
     if (this.isPlaying) {
-      this.player.stop();
-      this.isPlaying = false;
-      this.player.prepare(this.playlist[this.currentIndex]);
-      this.player.play();
-      this.isPlaying = true;
+      this.stop();
+    }
+    this.currentIndex = index;
+    this.currentSong = this.songs[index];
+    if (wasPlaying) {
+      this.play();
     }
   }
 
   // user presses play/pause button
   togglePauseResume = () => {
-    if (this.currentIndex < 0 || this.currentIndex >= this.playlist.length) {
+    if (this.currentIndex < 0 || this.currentIndex >= this.songs.length) {
       console.error('Index out of bounds');
       return;
     }
     if (this.isPlaying) {
-      this.player.pause();
-      this.isPlaying = false;
+      this.pause();
     } else {
-      this.player.play();
-      this.isPlaying = true;
+      this.play();
     }
   }
 
