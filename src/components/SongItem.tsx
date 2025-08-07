@@ -4,6 +4,7 @@ import { ActionBar } from './ActionBar.jsx';
 import { ProgressBar } from './ProgressBar.jsx';
 import { VinylRecord } from './VinylRecord.jsx';
 
+import './SongItem.css';
 
 export interface SongItemProps {
   title: string | null;
@@ -25,14 +26,7 @@ export const SongItem = (props: SongItemProps) => {
   };
 
   return (
-    <view
-      style={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <view className="SongItem-root">
       <VinylRecord
         title={props.title}
         isPlaying={props.manager.isPlaying}
