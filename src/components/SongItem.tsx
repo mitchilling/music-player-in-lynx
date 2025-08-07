@@ -6,6 +6,7 @@ import { VinylRecord } from './VinylRecord.jsx';
 
 
 export interface SongItemProps {
+  title: string | null;
   manager: PlaybackManager;
 }
 
@@ -33,7 +34,7 @@ export const SongItem = (props: SongItemProps) => {
       }}
     >
       <VinylRecord
-        song={props.manager.currentSong ?? null}
+        title={props.title}
         isPlaying={props.manager.isPlaying}
       />
       <ProgressBar
