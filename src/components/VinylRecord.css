@@ -12,6 +12,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: spin 4s linear infinite;
+  animation-play-state: paused; /* default paused */
+}
+
+.VinylImage.playing {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .Title {
