@@ -1,30 +1,42 @@
-import { useEffect, useState } from '@lynx-js/react'
 import type { ListSnapEvent } from '@lynx-js/types';
-import { atom, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
+
+import {
+  currentDurationAtom,
+  currentIndexAtom,
+  currentIsLikedAtom,
+  currentPositionAtom,
+  currentTitleAtom,
+  managerAtom
+} from '../State.jsx';
 import { SongItem } from './SongItem.jsx'
-import { PlaybackManager } from '../model/PlaybackManager.js';
+
+import './SongList.css'
 
 export interface SongListProps {
-  manager: PlaybackManager;
 }
 
-export const isPlayingAtom = atom(false);
-export const currentIndexAtom = atom(0);
-
 export const SongList = (props: SongListProps) => {
-  const [currentTitle, setCurrentTitle] = useState(null as string | null);
-  const [currentIndex, setCurrentIndex] = useAtom(currentIndexAtom);
-
-  useEffect(() => {
-    setCurrentTitle(props.manager.currentSong?.title ?? null);
-  }, [])
+  const [, setCurrentDuration] = useAtom(currentDurationAtom);
+  const [, setCurrentIndex] = useAtom(currentIndexAtom);
+  const [, setCurrentIsLiked] = useAtom(currentIsLikedAtom);
+  const [, setCurrentPosition] = useAtom(currentPositionAtom);
+  const [, setCurrentTitle] = useAtom(currentTitleAtom);
+  const [manager, ] = useAtom(managerAtom);
 
   // triggered when the finger leaves the screen after a swipe
   const handleSnap = (e: ListSnapEvent) => {
     // console.log('Snap event triggered');
-    props.manager.switchTo(e.detail.position);
+    manager?.switchTo(e.detail.position);
+
+    // These should be called in listener to events emitted by PlaybackManager
+    // to decouple state management from UI components.
+    // Let's just mock it for now.
     setCurrentIndex(e.detail.position);
-    setCurrentTitle(props.manager.currentSong?.title ?? null);
+    setCurrentTitle(manager?.currentSong?.title ?? null);
+    setCurrentDuration(manager?.currentSong?.duration ?? 0);
+    setCurrentIsLiked(manager?.currentSong?.isLiked ?? false);
+    setCurrentPosition(manager?.currentPositions[e.detail.position] ?? 0);
   };
 
   return (
@@ -37,18 +49,15 @@ export const SongList = (props: SongListProps) => {
       // bug with bindsnap, let's ignore it
       // @ts-ignore
       bindsnap={handleSnap}
-      style={{
-        width: "100%",
-        height: "100vh",
-      }}
+      className='List'
     >
-      {Array.from({ length: 5 }).map((item, index) => {
+      {Array.from({ length: manager?.currentPositions.length ?? 0 }).map((item, index) => {
         return (
           <list-item
             item-key={`list-item-${index}`}
             key={`list-item-${index}`}
           >
-            <SongItem index={index} title={currentTitle} manager={props.manager} />
+            <SongItem index={index} />
           </list-item>
         );
       })}

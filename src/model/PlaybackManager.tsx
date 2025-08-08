@@ -2,14 +2,18 @@ import { MockPlayer } from './MockPlayer.jsx';
 import { Song } from './Song.jsx';
 
 export class PlaybackManager {
+  // used to control the playback and get the status
   private player: MockPlayer;
-  private songs: Song[] = [];
-  private playStartTime: number | null = null;
+  public isPlaying: boolean = false;
 
-  public currentPositions: number[] = [];
+  // used to retrieve information of the current song
+  private songs: Song[] = [];
   public currentIndex: number = 0;
   public currentSong: Song | null = null;
-  public isPlaying: boolean = false;
+  public currentPositions: number[] = [];
+
+  // used to track the time of mock playback
+  private playStartTime: number | null = null;
 
   constructor() {
     this.player = new MockPlayer();
@@ -97,6 +101,7 @@ export class PlaybackManager {
     if (this.currentSong) {
       this.currentSong.isLiked = !this.currentSong.isLiked;
     }
+    return this.currentSong?.isLiked ?? false;
   }
 
   // Don't forget to deinitialize the player when done
