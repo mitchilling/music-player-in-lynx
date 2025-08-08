@@ -2,6 +2,7 @@ import { useAtom } from 'jotai';
 
 import { currentIndexAtom } from '../State.jsx';
 import { ActionBar } from './ActionBar.jsx';
+import { InfoBox } from './InfoBox.jsx';
 import { ProgressBar } from './ProgressBar.jsx';
 import { VinylRecord } from './VinylRecord.jsx';
 
@@ -17,6 +18,7 @@ export const SongItem = (props: SongItemProps) => {
   return (
     <view className="SongItem-root">
       <VinylRecord />
+      <InfoBox />
       {/* only mount progress bar when index is correct, to reduce timer cost */}
       {currentIndex === props.index && (
         <ProgressBar

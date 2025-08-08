@@ -1,22 +1,22 @@
 import { useAtom } from 'jotai';
-import { currentTitleAtom, isPlayingAtom } from '../State.jsx';
+import { isPlayingAtom, currentCoverImageAtom } from '../State.jsx';
 
 import './VinylRecord.css'
-import vinyl from '../assets/player/vinyl_red.png';
+import vinyl from '../assets/images/vinyl_red.png';
 
 export interface VinylRecordProps {
 }
 
 export const VinylRecord = (props: VinylRecordProps) => {
-  const [currentTitle, ] = useAtom(currentTitleAtom);
   const [isPlaying, ] = useAtom(isPlayingAtom);
+  const [coverImage, ] = useAtom(currentCoverImageAtom);
 
   return (
-    <view className="VinylRecordView">
+    <view className='VinylRecordView'>
       <image src={vinyl} className={`VinylImage ${isPlaying ? 'playing' : ''}`} >
-        <text className='Title'>
-          {`${currentTitle ? currentTitle : "Empty Playlist"}`}
-        </text>
+        {coverImage && (
+          <image src={coverImage} className='CoverImage' />
+        )}
       </image>
     </view>
   );

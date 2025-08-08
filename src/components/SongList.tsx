@@ -7,6 +7,7 @@ import {
   currentIsLikedAtom,
   currentPositionAtom,
   currentTitleAtom,
+  currentCoverImageAtom,
   managerAtom
 } from '../State.jsx';
 import { SongItem } from './SongItem.jsx'
@@ -22,6 +23,7 @@ export const SongList = (props: SongListProps) => {
   const [, setCurrentIsLiked] = useAtom(currentIsLikedAtom);
   const [, setCurrentPosition] = useAtom(currentPositionAtom);
   const [, setCurrentTitle] = useAtom(currentTitleAtom);
+  const [, setCurrentCoverImage] = useAtom(currentCoverImageAtom);
   const [manager, ] = useAtom(managerAtom);
 
   // triggered when the finger leaves the screen after a swipe
@@ -34,6 +36,7 @@ export const SongList = (props: SongListProps) => {
     // Let's just mock it for now.
     setCurrentIndex(e.detail.position);
     setCurrentTitle(manager?.currentSong?.title ?? null);
+    setCurrentCoverImage(manager?.currentSong?.coverImage ?? null);
     setCurrentDuration(manager?.currentSong?.duration ?? 0);
     setCurrentIsLiked(manager?.currentSong?.isLiked ?? false);
     setCurrentPosition(manager?.currentPositions[e.detail.position] ?? 0);

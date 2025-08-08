@@ -2,11 +2,11 @@ import { useAtom } from 'jotai';
 import { currentIsLikedAtom, isPlayingAtom, managerAtom } from '../State.jsx';
 
 import './ActionBar.css';
-import heartEmpty from '../assets/player/heart_empty.png'
-import heartFull from '../assets/player/heart_full_red.png'
-import playIcon from '../assets/player/play_light.png'
-import pauseIcon from '../assets/player/pause_light.png'
-import shareIcon from '../assets/player/share_light.png'
+import heartEmpty from '../assets/icons/heart_empty.png'
+import heartFull from '../assets/icons/heart_full_red.png'
+import playIcon from '../assets/icons/play_light.png'
+import pauseIcon from '../assets/icons/pause_light.png'
+import shareIcon from '../assets/icons/share_light.png'
 
 export interface ActionBarProps {
 }
