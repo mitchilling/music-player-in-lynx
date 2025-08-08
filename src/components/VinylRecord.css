@@ -1,6 +1,6 @@
 .VinylRecordView {
   width: 100%;
-  height: 75vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,9 +30,8 @@
   }
 }
 
-.Title {
-  font-size: 16px;
-  padding-left: 6px;
-  padding-top: 6px;
-  color: lightgrey;
+.CoverImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
