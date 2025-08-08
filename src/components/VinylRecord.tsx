@@ -8,11 +8,12 @@ export interface VinylRecordProps {
 }
 
 export const VinylRecord = (props: VinylRecordProps) => {
-  const [currentTitle, setCurrentTitle] = useAtom(currentTitleAtom);
+  const [currentTitle, ] = useAtom(currentTitleAtom);
+  const [isPlaying, ] = useAtom(isPlayingAtom);
 
   return (
     <view className="VinylRecordView">
-      <image src={vinyl} className='VinylImage' >
+      <image src={vinyl} className={`VinylImage ${isPlaying ? 'playing' : ''}`} >
         <text className='Title'>
           {`${currentTitle ? currentTitle : "Empty Playlist"}`}
         </text>
