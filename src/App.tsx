@@ -1,4 +1,4 @@
-import { useEffect, useState } from '@lynx-js/react'
+import { useEffect, useMemo } from '@lynx-js/react'
 import { useAtom } from 'jotai';
 
 import { currentDurationAtom, currentTitleAtom, managerAtom } from './State.jsx';
@@ -14,7 +14,7 @@ export function App(props: {
   const [, setCurrentTitle] = useAtom(currentTitleAtom);
   const [, setManager] = useAtom(managerAtom);
 
-  const [instance] = useState(() => {
+  const instance = useMemo(() => {
     const pm = new PlaybackManager();
     pm.addSong({
       title: 'Song 1',
@@ -52,7 +52,7 @@ export function App(props: {
       isLiked: false,
     });
     return pm;
-  });
+  }, []);
 
   useEffect(() => {
     setManager(instance);
