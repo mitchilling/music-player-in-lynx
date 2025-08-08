@@ -1,3 +1,6 @@
+import { useAtom } from 'jotai';
+import { currentIsLikedAtom, isPlayingAtom, managerAtom } from '../State.jsx';
+
 import './ActionBar.css';
 import heartEmpty from '../assets/player/heart_empty.png'
 import heartFull from '../assets/player/heart_full_red.png'
@@ -6,28 +9,33 @@ import pauseIcon from '../assets/player/pause_light.png'
 import shareIcon from '../assets/player/share_light.png'
 
 export interface ActionBarProps {
-  isPlaying: boolean;
-  isLiked: boolean;
-  togglePauseResume: () => void;
-  toggleLike: () => void;
 }
 
 export const ActionBar = (props: ActionBarProps) => {
+  const [currentIsLiked, setCurrentIsLiked] = useAtom(currentIsLikedAtom);
+  const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+  const [manager, setManager] = useAtom(managerAtom);
+
+
+  const togglePauseResume = () => {
+    manager?.togglePauseResume();
+    setIsPlaying(manager?.isPlaying ?? false);
+  };
+
+  const toggleLike = () => {
+    const liked = manager?.toggleLike();
+    setCurrentIsLiked(liked ?? false);
+  };
+
   return (
-    <view
-      style={{ width: "100%", height: "20vh",
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center"
-      }}
-    >
-      <view bindtap={props.toggleLike} className='TapArea'>
-        {props.isLiked
+    <view className='ActionBarView'>
+      <view bindtap={toggleLike} className='TapArea'>
+        {currentIsLiked
           ? <image src={heartFull} className='HeartIcon' />
           : <image src={heartEmpty} className='HeartIcon' />}
       </view>
-      <view bindtap={props.togglePauseResume} className='TapArea'>
-        {props.isPlaying
+      <view bindtap={togglePauseResume} className='TapArea'>
+        {isPlaying
           ? <image src={pauseIcon} className='PlayIcon' />
           : <image src={playIcon} className='PlayIcon' />}
       </view>

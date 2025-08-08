@@ -1,55 +1,66 @@
-import { useCallback, useEffect, useState } from '@lynx-js/react'
+import { useEffect, useState } from '@lynx-js/react'
+import { useAtom } from 'jotai';
+
+import { currentDurationAtom, currentTitleAtom, managerAtom } from './State.jsx';
+import { PlaybackManager } from './model/PlaybackManager.jsx';
+import { SongList } from './components/SongList.jsx'
 
 import './App.css'
-import arrow from './assets/arrow.png'
-import lynxLogo from './assets/lynx-logo.png'
-import reactLynxLogo from './assets/react-logo.png'
 
 export function App(props: {
   onMounted?: () => void
 }) {
-  const [alterLogo, setAlterLogo] = useState(false)
+  const [, setCurrentDuration] = useAtom(currentDurationAtom);
+  const [, setCurrentTitle] = useAtom(currentTitleAtom);
+  const [, setManager] = useAtom(managerAtom);
+
+  const [instance] = useState(() => {
+    const pm = new PlaybackManager();
+    pm.addSong({
+      title: 'Song 1',
+      duration: 120,
+      url: 'https://example.com/song1.mp3',
+      coverImage: 'https://example.com/cover1.jpg',
+      isLiked: false,
+    });
+    pm.addSong({
+      title: 'Song 2',
+      duration: 150,
+      url: 'https://example.com/song2.mp3',
+      coverImage: 'https://example.com/cover2.jpg',
+      isLiked: false,
+    });
+    pm.addSong({
+      title: 'Song 3',
+      duration: 200,
+      url: 'https://example.com/song3.mp3',
+      coverImage: 'https://example.com/cover3.jpg',
+      isLiked: false,
+    });
+    pm.addSong({
+      title: 'Song 4',
+      duration: 220,
+      url: 'https://example.com/song4.mp3',
+      coverImage: 'https://example.com/cover4.jpg',
+      isLiked: false,
+    });
+    pm.addSong({
+      title: 'Song 5',
+      duration: 240,
+      url: 'https://example.com/song5.mp3',
+      coverImage: 'https://example.com/cover5.jpg',
+      isLiked: false,
+    });
+    return pm;
+  });
 
   useEffect(() => {
-    console.info('Hello, ReactLynx')
-    props.onMounted?.()
-  }, [])
-
-  const onTap = useCallback(() => {
-    'background only'
-    setAlterLogo(prevAlterLogo => !prevAlterLogo)
-  }, [])
+    setManager(instance);
+    setCurrentTitle(instance.currentSong?.title ?? null);
+    setCurrentDuration(instance.currentSong?.duration ?? 0);
+  }, [instance]);
 
   return (
-    <view>
-      <view className='Background' />
-      <view className='App'>
-        <view className='Banner'>
-          <view className='Logo' bindtap={onTap}>
-            {alterLogo
-              ? <image src={reactLynxLogo} className='Logo--react' />
-              : <image src={lynxLogo} className='Logo--lynx' />}
-          </view>
-          <text className='Title'>React</text>
-          <text className='Subtitle'>on Lynx</text>
-        </view>
-        <view className='Content'>
-          <image src={arrow} className='Arrow' />
-          <text className='Description'>Tap the logo and have fun!</text>
-          <text className='Hint'>
-            Edit<text
-              style={{
-                fontStyle: 'italic',
-                color: 'rgba(255, 255, 255, 0.85)',
-              }}
-            >
-              {' src/App.tsx '}
-            </text>
-            to see updates!
-          </text>
-        </view>
-        <view style={{ flex: 1 }}></view>
-      </view>
-    </view>
+    <SongList />
   )
 }
